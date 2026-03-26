@@ -22,8 +22,8 @@ spec:
         - containerPort: 9100
           name: metrics
 
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/prometheus/
-          readOnly: true
+#        volumeMounts:
+#        - name: config-volume
+#          mountPath: /etc/prometheus/
+#          readOnly: true
 
