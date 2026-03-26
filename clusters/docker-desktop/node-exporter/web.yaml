@@ -1,3 +1,2 @@
 basic_auth_users:
-  username: admin
-  password: $apr1$MUc44XoB$pKqXi9sEZrb/3rtDMe/q/. 
+  'admin:$apr1$MUc44XoB$pKqXi9sEZrb/3rtDMe/q/.'
