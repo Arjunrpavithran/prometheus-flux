@@ -27,7 +27,3 @@ spec:
           mountPath: /etc/prometheus/
           readOnly: true
 
-      volumes:
-      - name: config-volume
-        secret:
-          secretName: node-exporter-basic-auth
