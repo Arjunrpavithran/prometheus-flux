@@ -3,26 +3,31 @@ kind: DaemonSet
 metadata:
   name: node-exporter
 spec:
+  selector:
+    matchLabels:
+      app: node-exporter
+
   template:
+    metadata:
+      labels:
+        app: node-exporter
+
     spec:
       containers:
       - name: node-exporter
         image: quay.io/prometheus/node-exporter:latest
-        command:
+        args:
         - "--path.rootfs=/host"
-#        - "--web.config.file=/etc/prometheus/web.yml" # Point to the config file
         ports:
         - containerPort: 9100
           name: metrics
+
         volumeMounts:
         - name: config-volume
           mountPath: /etc/prometheus/
           readOnly: true
-#        - name: node-exporter-config
-#          mountPath: /etc/prometheus
-#          readOnly: true
-#      volumes:
-#      - name: config-volume
-#        secret:
-#          secretName: node-exporter-basic-auth # Name of the Kubernetes Secret
 
+      volumes:
+      - name: config-volume
+        secret:
+          secretName: node-exporter-basic-auth
