@@ -5,3 +5,6 @@ resources:
   - prometheus-config.yaml
   - prometheus-service.yaml
   - prometheus-deployment.yaml
+  - node-exporter/sa.yaml
+  - node-exporter/svc.yaml
+  - node-exporter/daemonset.yaml
