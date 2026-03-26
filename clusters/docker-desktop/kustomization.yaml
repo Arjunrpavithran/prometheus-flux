@@ -8,3 +8,7 @@ resources:
   - node-exporter/sa.yaml
   - node-exporter/svc.yaml
   - node-exporter/daemonset.yaml
+configMapGenerator:
+  - name: node-exporter-web
+    files:
+      - web.yaml

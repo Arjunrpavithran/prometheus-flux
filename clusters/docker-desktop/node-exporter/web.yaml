@@ -1,0 +1,3 @@
+basic_auth:
+  username: admin
+  password: $apr1$MUc44XoB$pKqXi9sEZrb/3rtDMe/q/. 

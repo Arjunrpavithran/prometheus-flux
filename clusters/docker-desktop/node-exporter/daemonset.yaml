@@ -17,13 +17,19 @@ spec:
       - name: node-exporter
         image: quay.io/prometheus/node-exporter:latest
         args:
-        - "--path.rootfs=/host"
+          - "--path.rootfs=/host"
+          - "--web.config.file=/etc/node-exporter/web.yaml"  
+
         ports:
         - containerPort: 9100
           name: metrics
 
-#        volumeMounts:
-#        - name: config-volume
-#          mountPath: /etc/prometheus/
-#          readOnly: true
+        volumeMounts:                     
+        - name: web-config                
+          mountPath: /etc/node-exporter/ 
+          readOnly: true
 
+      volumes:
+      - name: web-config
+        configMap:
+          name: node-exporter-web
