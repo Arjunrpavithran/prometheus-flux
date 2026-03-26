@@ -11,4 +11,4 @@ resources:
 configMapGenerator:
   - name: node-exporter-web
     files:
-      - web.yaml
+      - node-exporter/web.yaml
