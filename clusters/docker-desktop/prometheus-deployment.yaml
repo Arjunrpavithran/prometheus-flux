@@ -8,6 +8,11 @@ spec:
   selector:
     matchLabels:
       app: prometheus
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 0
   template:
     metadata:
       labels:
@@ -35,8 +40,3 @@ spec:
       - name: prometheus-config
         configMap:
           name: prometheus-config
-      strategy:
-        type: RollingUpdate
-        rollingUpdate:
-          maxUnavailable: 1
-          maxSurge: 0
