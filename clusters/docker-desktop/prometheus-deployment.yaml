@@ -46,4 +46,4 @@ spec:
         - name: auth-volume1
           secret:
             defaultMode: 420
-            secretName: basic-auth-decry
+            secretName: basic-auth
