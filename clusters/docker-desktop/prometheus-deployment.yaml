@@ -19,24 +19,31 @@ spec:
         app: prometheus
     spec:
       containers:
-      - name: prometheus
-        image: prom/prometheus:v2.51.0
-        args:
-          - "--config.file=/etc/prometheus/prometheus.yml"
-          - "--storage.tsdb.path=/prometheus"
-        ports:
-        - containerPort: 9090
-        volumeMounts:
-        - name: prometheus-storage
-          mountPath: /prometheus
-        - name: prometheus-config
-          mountPath: /etc/prometheus
+        - name: prometheus
+          image: prom/prometheus:v2.51.0
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+          ports:
+            - containerPort: 9090
+          volumeMounts:
+            - name: prometheus-storage
+              mountPath: /prometheus
+            - name: prometheus-config
+              mountPath: /etc/prometheus
+            - name: auth-volume1
+              mountPath: /etc/prometheus/node-exporter
 
       volumes:
-      - name: prometheus-storage
-        persistentVolumeClaim:
-          claimName: prometheus-pvc   # ← existing PVC
+        - name: prometheus-storage
+          persistentVolumeClaim:
+            claimName: prometheus-pvc # ← existing PVC
 
-      - name: prometheus-config
-        configMap:
-          name: prometheus-config
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+
+        - name: auth-volume1
+          secret:
+            defaultMode: 420
+            secretName: basic-auth-decry
