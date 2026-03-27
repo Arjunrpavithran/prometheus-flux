@@ -1,35 +1,51 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
+  labels:
+    kustomize.toolkit.fluxcd.io/name: flux-system
+    kustomize.toolkit.fluxcd.io/namespace: flux-system
   name: node-exporter
+  namespace: monitoring
 spec:
+  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: node-exporter
-
   template:
     metadata:
       labels:
         app: node-exporter
-
     spec:
       containers:
-      - name: node-exporter
+      - args:
+        - --path.rootfs=/host
+        - --web.config.file=/etc/basic-auth/web-config
         image: quay.io/prometheus/node-exporter:latest
-        args:
-          - "--path.rootfs=/host"
-          - "--web.config.file=/etc/node-exporter/web.yaml"  
-
+        imagePullPolicy: Always
+        name: node-exporter
         ports:
         - containerPort: 9100
           name: metrics
-
-        volumeMounts:                     
-        - name: web-config                
-          mountPath: /etc/node-exporter/ 
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/basic-auth
+          name: auth-volume
           readOnly: true
-
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       volumes:
-      - name: web-config
-        configMap:
-          name: node-exporter-web
+      - name: auth-volume
+        secret:
+          defaultMode: 420
+          secretName: basic-auth1
+  updateStrategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
